@@ -17,7 +17,7 @@ namespace homeWork_Procedure
             const string CommandDeleteDossier = "4";
             const string CommmandExit = "5";
 
-            string[] fullName = new string[3] {"Игорь","Давид","Алексей" };
+            string[] fullName = new string[3] {"Иванова Иван Иванович","Логинов Давид Алексевич","Созонов Алексей Дмитриевич" };
             string[] jobTitle = new string[3] {"Директор","Разрабочик","Менеджер" };
             bool isExit = true;
             string userInput;
@@ -53,7 +53,7 @@ namespace homeWork_Procedure
                         break;
 
                     default:
-                        Console.WriteLine("Сомманда не распознана");
+                        Console.WriteLine("Комманда не распознана");
                         break;
                 }
 
@@ -62,19 +62,17 @@ namespace homeWork_Procedure
             }
         }
 
-        static void IncreaseArrays( ref string[] fullNames, ref string[] jobTitles) 
+        static void IncreaseArrays( ref string[] array) 
         {
-            string[] temporaryFullNames = new string[fullNames.Length + 1];
-            string[] temporaryJobTitles = new string[jobTitles.Length + 1];
+            string[] temporaryArray = new string[array.Length + 1];
+           
 
-            for (int i = 0; i < fullNames.Length; i++) 
+            for (int i = 0; i < array.Length; i++) 
             {
-                temporaryFullNames[i] = fullNames[i];
-                temporaryJobTitles[i] = jobTitles[i];
+                temporaryArray[i] = array[i];
             }
 
-            fullNames = temporaryFullNames;
-            jobTitles = temporaryJobTitles;            
+            array = temporaryArray;     
         }
 
         static void AddRecord(ref string[] array, string line)
@@ -92,7 +90,8 @@ namespace homeWork_Procedure
             Console.Write("Введите должность человека: ");
             job  = Console.ReadLine();
 
-            IncreaseArrays(ref fullNames, ref jobTitles);
+            IncreaseArrays(ref fullNames);
+            IncreaseArrays(ref jobTitles);
             AddRecord(ref fullNames, name);
             AddRecord(ref jobTitles, job);            
         }
@@ -127,6 +126,23 @@ namespace homeWork_Procedure
             } 
         }
 
+        static void DeleteElementArray(ref string[] array, int numberElemet) 
+        {
+            string[] temperaryAray = new string[array.Length - 1];
+            int countElemet = 0;
+
+            for (int i = 0; i < array.Length;i++) 
+            {
+                if(i != numberElemet - 1) 
+                {
+                    temperaryAray[countElemet] = array[i];
+                    countElemet++;
+                }
+            }
+
+            array = temperaryAray;
+        }
+
         static void DeleteDossier(ref string[] fullName, ref string[] jobTitles) 
         {
             string[] temporeryFullName = new string[fullName.Length - 1];
@@ -137,15 +153,8 @@ namespace homeWork_Procedure
             Console.WriteLine("Введите порядковый номер человека которого вы хотите удалить из досье");
             userInput =Convert.ToInt32(Console.ReadLine());
 
-            for (int i = 0; i < fullName.Length; i++) 
-            {
-                if (i != userInput - 1) 
-                {
-                    temporeryFullName[countRecords] = fullName[i];
-                    tempereryJobTitle[countRecords] = jobTitles[i];
-                    countRecords++;
-                }
-            }
+            DeleteElementArray(ref fullName, userInput);
+            DeleteElementArray(ref jobTitles, userInput);
 
             Console.WriteLine($"{fullName[userInput-1]} - {jobTitles[userInput-1]} был удален");
             fullName = temporeryFullName;
