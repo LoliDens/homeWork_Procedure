@@ -30,6 +30,7 @@ namespace homeWork_Procedure
                     $"\n{CommandFindDossier} - найти должность по ФИО" +
                     $"\n{CommandDeleteDossier} - удалить человека из списка по ФИО");
                 userInput = Console.ReadLine();
+
                 switch (userInput)
                 {
                     case CommandAddDosseir:
@@ -150,7 +151,7 @@ namespace homeWork_Procedure
             int userInput;
             int countRecords = 0;
 
-            Console.WriteLine("Введите порядковый номер человека которого вы хотите удалить из досье");
+            Console.WriteLine("Введите порядковый номер досье которого вы хотите удалить");
             userInput =Convert.ToInt32(Console.ReadLine());
 
             DeleteElementArray(ref fullName, userInput);
