@@ -105,16 +105,35 @@ namespace homeWork_Procedure
             }
         }
 
+        static string SurnameFromFullName(string fullName) 
+        {
+            string surname = "";
+
+            for (int i = 0; i < fullName.Length; i++) 
+            {
+                if (fullName[i] != ' ')
+                {
+                    surname += fullName[i];
+                }
+                else 
+                {
+                    return surname;
+                }
+            }
+
+            return "";
+        }
+
         static void FindDossier(string[] fullName, string[] jobTitle) 
         {
             string userInput;
             bool isUserExits = false;
-            Console.WriteLine("Введите ФИО человека кого вы хотите найти: ");
-            userInput= Console.ReadLine();
+            Console.WriteLine("Введите Фамилию человека кого вы хотите найти: ");
+            userInput = Console.ReadLine();
 
             for (int i = 0; i < fullName.Length; i++) 
             {
-                if (userInput == fullName[i]) 
+                if (userInput == SurnameFromFullName(fullName[i])) 
                 {
                     Console.WriteLine($"ФИО - {fullName[i]}, должность - {jobTitle[i]}");
                     isUserExits = true;
@@ -149,17 +168,13 @@ namespace homeWork_Procedure
             string[] temporeryFullName = new string[fullName.Length - 1];
             string[] tempereryJobTitle = new string[jobTitles.Length - 1];
             int userInput;
-            int countRecords = 0;
 
             Console.WriteLine("Введите порядковый номер досье которого вы хотите удалить");
-            userInput =Convert.ToInt32(Console.ReadLine());
+            userInput = Convert.ToInt32(Console.ReadLine());
 
+            Console.WriteLine($"{fullName[userInput - 1]} - {jobTitles[userInput - 1]} был удален");
             DeleteElementArray(ref fullName, userInput);
-            DeleteElementArray(ref jobTitles, userInput);
-
-            Console.WriteLine($"{fullName[userInput-1]} - {jobTitles[userInput-1]} был удален");
-            fullName = temporeryFullName;
-            jobTitles = tempereryJobTitle;
+            DeleteElementArray(ref jobTitles, userInput);        
         }
     }
 }
