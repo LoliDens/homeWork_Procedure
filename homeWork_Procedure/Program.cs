@@ -165,8 +165,6 @@ namespace homeWork_Procedure
 
         static void DeleteDossier(ref string[] fullName, ref string[] jobTitles) 
         {
-            string[] temporeryFullName = new string[fullName.Length - 1];
-            string[] tempereryJobTitle = new string[jobTitles.Length - 1];
             int userInput;
 
             Console.WriteLine("Введите порядковый номер досье которого вы хотите удалить");
