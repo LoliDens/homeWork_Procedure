@@ -67,7 +67,6 @@ namespace homeWork_Procedure
         {
             string[] temporaryArray = new string[array.Length + 1];
            
-
             for (int i = 0; i < array.Length; i++) 
             {
                 temporaryArray[i] = array[i];
@@ -76,9 +75,10 @@ namespace homeWork_Procedure
             array = temporaryArray;     
         }
 
-        static void AddRecord(ref string[] array, string line)
+        static string[] AddRecord(string[] array, string line)
         {
             array[array.Length - 1] = line;
+            return array;
         }
 
         static void AddDosseir(ref string[] fullNames, ref string[] jobTitles) 
@@ -93,8 +93,8 @@ namespace homeWork_Procedure
 
             IncreaseArrays(ref fullNames);
             IncreaseArrays(ref jobTitles);
-            AddRecord(ref fullNames, name);
-            AddRecord(ref jobTitles, job);            
+            fullNames = AddRecord(fullNames, name);
+            jobTitles = AddRecord(jobTitles, job);            
         }
 
         static void ShowDosseir(string[] firstArray, string[] secondArray) 
