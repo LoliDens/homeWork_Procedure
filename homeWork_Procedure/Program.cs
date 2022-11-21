@@ -12,21 +12,21 @@ namespace homeWork_Procedure
         static void Main(string[] args)
         {
             const string CommandAddDosseir = "1";
-            const string CommandShowDosseir = "2";
+            const string CommandShowDosseirs = "2";
             const string CommandFindDossier = "3";
             const string CommandDeleteDossier = "4";
             const string CommmandExit = "5";
 
-            string[] fullName = new string[3] {"Иванова Иван Иванович","Логинов Давид Алексевич","Созонов Алексей Дмитриевич" };
-            string[] jobTitle = new string[3] {"Директор","Разрабочик","Менеджер" };
-            bool isExit = true;
+            string[] fullNames = new string[3] {"Иванова Иван Иванович","Логинов Давид Алексевич","Созонов Алексей Дмитриевич" };
+            string[] jobTitles = new string[3] {"Директор","Разрабочик","Менеджер" };
+            bool isExit = false;
             string userInput;
 
-            while (isExit == true)
+            while (isExit == false)
             {
                 Console.WriteLine($"Нажминте " +
                     $"\n{CommandAddDosseir} - для того чтобы добавить человека в список" +
-                    $"\n{CommandShowDosseir} - для того чтобы вывести список ФИО и дожностей" +
+                    $"\n{CommandShowDosseirs} - для того чтобы вывести список ФИО и дожностей" +
                     $"\n{CommandFindDossier} - найти должность по ФИО" +
                     $"\n{CommandDeleteDossier} - удалить человека из списка по ФИО");
                 userInput = Console.ReadLine();
@@ -34,23 +34,23 @@ namespace homeWork_Procedure
                 switch (userInput)
                 {
                     case CommandAddDosseir:
-                        AddDosseir(ref fullName, ref jobTitle);
+                        AddDosseir(ref fullNames, ref jobTitles);
                         break;
 
-                    case CommandShowDosseir:
-                        ShowDosseir(fullName, jobTitle);
+                    case CommandShowDosseirs:
+                        ShowDosseirs(fullNames, jobTitles);
                         break;
 
                     case CommandFindDossier:
-                        FindDossier(fullName, jobTitle);
+                        FindDossier(fullNames, jobTitles);
                         break;
 
                     case CommandDeleteDossier:
-                        DeleteDossier(ref fullName, ref jobTitle);
+                        DeleteDossier(ref fullNames, ref jobTitles);
                         break;
 
                     case CommmandExit:
-                        isExit = false;
+                        isExit = true;
                         break;
 
                     default:
@@ -63,7 +63,7 @@ namespace homeWork_Procedure
             }
         }
 
-        static void IncreaseArrays( ref string[] array) 
+        static string [] IncreaseArray(string[] array, string userInput) 
         {
             string[] temporaryArray = new string[array.Length + 1];
            
@@ -72,13 +72,10 @@ namespace homeWork_Procedure
                 temporaryArray[i] = array[i];
             }
 
-            array = temporaryArray;     
-        }
+            temporaryArray[temporaryArray.Length - 1] = userInput; 
+            array = temporaryArray;
 
-        static string[] AddRecord(string[] array, string line)
-        {
-            array[array.Length - 1] = line;
-            return array;
+            return array;         
         }
 
         static void AddDosseir(ref string[] fullNames, ref string[] jobTitles) 
@@ -91,87 +88,71 @@ namespace homeWork_Procedure
             Console.Write("Введите должность человека: ");
             job  = Console.ReadLine();
 
-            IncreaseArrays(ref fullNames);
-            IncreaseArrays(ref jobTitles);
-            fullNames = AddRecord(fullNames, name);
-            jobTitles = AddRecord(jobTitles, job);            
+            fullNames = IncreaseArray(fullNames, name);
+            jobTitles = IncreaseArray(jobTitles, job);         
         }
 
-        static void ShowDosseir(string[] firstArray, string[] secondArray) 
+        static void ShowDosseirs(string[] fullNames, string[] jobTitles) 
         {
-            for (int i = 0; i < firstArray.Length; i++) 
+            for (int i = 0; i < fullNames.Length; i++) 
             {
-                Console.WriteLine($"{i+1}. {firstArray[i]}-{secondArray[i]}");
+                Console.WriteLine($"{i+1}. {fullNames[i]}-{jobTitles[i]}");
             }
         }
 
-        static string SurnameFromFullName(string fullName) 
+        static string SearchBySurname(string fullName) 
         {
-            string surname = "";
-
-            for (int i = 0; i < fullName.Length; i++) 
-            {
-                if (fullName[i] != ' ')
-                {
-                    surname += fullName[i];
-                }
-                else 
-                {
-                    return surname;
-                }
-            }
-
-            return "";
+            string[] fullNames = fullName.Split(' ');
+            
+            return fullNames[0];
         }
 
-        static void FindDossier(string[] fullName, string[] jobTitle) 
-        {
-            string userInput;
-            bool isUserExits = false;
+        static void FindDossier(string[] fullNames, string[] jobTitles) 
+        {            
+            bool isUserExist = false;
+
             Console.WriteLine("Введите Фамилию человека кого вы хотите найти: ");
-            userInput = Console.ReadLine();
+            string userInput = Console.ReadLine();
 
-            for (int i = 0; i < fullName.Length; i++) 
+            for (int i = 0; i < fullNames.Length; i++) 
             {
-                if (userInput == SurnameFromFullName(fullName[i])) 
+                if (userInput == SearchBySurname(fullNames[i])) 
                 {
-                    Console.WriteLine($"ФИО - {fullName[i]}, должность - {jobTitle[i]}");
-                    isUserExits = true;
+                    Console.WriteLine($"ФИО - {fullNames[i]}, должность - {jobTitles[i]}");
+                    isUserExist = true;
                 }
             }
 
-            if (isUserExits == false) 
+            if (isUserExist == false) 
             {
                 Console.WriteLine("Пользователь не найден ");
             } 
         }
 
-        static void DeleteElementArray(ref string[] array, int numberElemet) 
+        static void DeleteElementArray(ref string[] array, int numberElement) 
         {
-            string[] temperaryAray = new string[array.Length - 1];
-            int countElemet = 0;
+            string[] temporaryArray = new string[array.Length - 1];
+            int countElement = 0;
 
             for (int i = 0; i < array.Length;i++) 
             {
-                if(i != numberElemet - 1) 
+                if(i != numberElement - 1) 
                 {
-                    temperaryAray[countElemet] = array[i];
-                    countElemet++;
+                    temporaryArray[countElement] = array[i];
+                    countElement++;
                 }
             }
 
-            array = temperaryAray;
+            array = temporaryArray;
         }
 
-        static void DeleteDossier(ref string[] fullName, ref string[] jobTitles) 
-        {
-            int userInput;
-
+        static void DeleteDossier(ref string[] fullNames, ref string[] jobTitles) 
+        {        
             Console.WriteLine("Введите порядковый номер досье которого вы хотите удалить");
-            userInput = Convert.ToInt32(Console.ReadLine());
+            int userInput = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine($"{fullName[userInput - 1]} - {jobTitles[userInput - 1]} был удален");
-            DeleteElementArray(ref fullName, userInput);
+            Console.WriteLine($"{fullNames[userInput - 1]} - {jobTitles[userInput - 1]} был удален");
+            DeleteElementArray(ref fullNames, userInput);
             DeleteElementArray(ref jobTitles, userInput);        
         }
     }
